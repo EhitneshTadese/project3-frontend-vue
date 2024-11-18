@@ -2,7 +2,11 @@ import { createWebHistory, createRouter } from "vue-router";
 const routes =  [
   {
     path: "/",
-    alias: "/create-resume",
+    name: "login",
+    component: () => import("./views/Login.vue")
+  },
+  {
+    path: "/create-resume",
     name: "createresume",
     component: () => import("./views/CreateResume.vue")
   },
@@ -25,10 +29,17 @@ const routes =  [
     component: () => import("./views/AddLesson.vue"),
     props: true
   },
+  
   {
     path: "/editLesson",
     name: "editLesson",
     component: () => import("./views/EditLesson.vue"),
+    props: true
+  },
+  {
+    path: "/account",
+    name: "account",
+    component: () => import("./views/Account.vue"),
     props: true
   }
 ];

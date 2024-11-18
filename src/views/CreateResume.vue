@@ -219,12 +219,12 @@
         <v-row justify="center">
             <v-col col="2"> </v-col>
             <v-col col="2">
-                <v-btn color="success" @click="saveTutorial()"
-                    >Save</v-btn
+                <v-btn color="success" @click="SubmitTutorial()"
+                    >Submit</v-btn
                 >
             </v-col>
             <v-col col="2">
-                <v-btn color="info" @click="cancel()">Cancel</v-btn>
+                <v-btn color="red" @click="cancel()">Cancel</v-btn>
             </v-col>
             <v-col col="2"> </v-col>
         </v-row>
@@ -256,11 +256,11 @@ export default {
         description: "",
         published: false
       },
-      message: "Enter data and click save"
+      message: "Enter data and click Submit"
     };
   },
   methods: {
-    saveTutorial() {
+    SubmitTutorial() {
       var data = {
         title: this.tutorial.title,
         description: this.tutorial.description
