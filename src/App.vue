@@ -15,13 +15,13 @@
                     variant="text"
                     @click="goList"
                     >
-                  List
+                  Resume List
                 </v-btn>
                 <v-btn 
                     variant="text"
                     @click="goAdd"
                     >
-                  Add
+                  Create Resume
                 </v-btn>
             </v-toolbar-items>
       </v-app-bar>
@@ -43,10 +43,10 @@ export default {
   }),
   methods: {
     goAdd() {
-      this.$router.push({ name: 'add' });
+      this.$router.push({ name: 'create_resume' });
     },
     goList() {
-      this.$router.push({ name: 'tutorials' });
+      this.$router.push({ name: 'resumes' });
     }
   },
 

@@ -6,6 +6,22 @@ const routes =  [
     name: "createresume",
     component: () => import("./views/CreateResume.vue")
   },
+{
+    path: "/myresume",
+    name: "resumes",
+    component: () => import("./views/ResumeList.vue"),
+    props: true
+  },
+
+
+
+{
+    path: "/userlist",
+    name: "listing",
+    component: () => import("./views/UsersList.vue"),
+    props: true
+  },
+
   {
     path: "/edit/:id",
     name: "edit",
