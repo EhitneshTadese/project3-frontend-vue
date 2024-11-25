@@ -1,14 +1,18 @@
 <template>
-  <v-container>
-  <v-row justify="center">
-    <v-col cols="50">
+  <v-container style="width: 1200px; margin: auto; text-align:center;">
+  
     <h1>User Resumes</h1>
+     <v-row justify="center">
+              <v-col col="20">
     <v-data-table
       :headers="headers"
       :items="resumes"
       item-value="id"
       class="elevation-1"
-      style="max-width: 1200px; margin: auto;"
+      style="width:1200px; margin: 0 auto;"
+      
+     
+      
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -20,9 +24,9 @@
         <thead>
           <tr>
            
-            <th>Resume Name</th>
-            <th>Template Type</th>
-            <th>Actions</th>
+            <th width="400">Resume Name&nbsp;&nbsp;&nbsp;</th>
+            <th width="400">Template Type</th>
+            <th width="400">Actions</th>
           </tr>
         </thead>
       </template>
@@ -34,9 +38,10 @@
             <td>{{ resume.resume_name }}</td>
             <td>{{ resume.template_type }}</td>
             <td>
-              <v-btn color="primary" small @click="editResume(resume.resume_id)">
-                Edit
-              </v-btn>
+             <v-btn color="primary" :to="{ name: 'edit-resume', params: {id:  resume.resume_id} }">
+  Edit
+
+</v-btn>
               <v-btn color="error" small @click="deleteResume(resume.resume_id)">
                 Delete
               </v-btn>
@@ -45,8 +50,9 @@
         </tbody>
       </template>
     </v-data-table>
-  </v-col>
-  </v-row>
+ 
+ </v-col>
+ </v-row>
 </v-container>
 </template>
 
@@ -60,7 +66,7 @@ export default {
       headers: [
         { text: "Resume Name", value: "resume_name", width: "20%", },
         { text: "Template Type", value: "template_type", width: "20%",},
-        { text: "Actions", value: "actions", width: "60%", sortable: false },
+        { text: "Actions", value: "actions", width: "10%", sortable: false },
       ],
     };
   },
@@ -91,4 +97,5 @@ export default {
 
 <style>
 /* Add any custom styles if needed */
+
 </style>

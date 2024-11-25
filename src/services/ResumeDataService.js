@@ -21,6 +21,18 @@ class ResumeDataService {
   getUserResumes() {
     return http.get("/user_resumes"); 
   }
+
+// Fetch a resume by ID
+get(id) {
+  return http.get(`/${id}`);
+}
+
+// Update a resume by ID
+update(id, data) {
+  return http.put(`/${id}`, data);
+}
+
+  
 }
 
 export default new ResumeDataService();  // Exporting an instance of the class

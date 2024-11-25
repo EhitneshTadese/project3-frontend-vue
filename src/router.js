@@ -12,7 +12,12 @@ const routes =  [
     component: () => import("./views/ResumeList.vue"),
     props: true
   },
-
+{
+  path: "/resumes/edit/:id",
+  name: "edit-resume",
+  component: () => import("./views/EditResume.vue"),
+  props: true,
+},
 
 
 {
