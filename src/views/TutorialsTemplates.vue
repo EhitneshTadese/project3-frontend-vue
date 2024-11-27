@@ -1,6 +1,6 @@
 <template>
 
-    <h1>Tutorial List</h1>
+    <h1>Tutorial Templates</h1>
     <h4>{{ message }}</h4>
   
       <v-row >
@@ -56,7 +56,7 @@
 import TutorialDataService from "../services/TutorialDataService";
 import TutorialDisplay from '@/components/TutorialDisplay.vue';
 export default {
-  name: "tutorials-list",
+  name: "tutorials-Templates",
   data() {
     return {
       tutorials: [],
@@ -96,7 +96,7 @@ export default {
           this.message = e.response.data.message;
         });
     },
-    refreshList() {
+    refreshTemplates() {
       this.retrieveTutorials();
       this.currentTutorial = null;
       this.currentIndex = -1;
@@ -109,7 +109,7 @@ export default {
       TutorialDataService.deleteAll()
         .then(response => {
           console.log(response.data);
-          this.refreshList();
+          this.refreshTemplates();
         })
         .catch(e => {
           this.message = e.response.data.message;

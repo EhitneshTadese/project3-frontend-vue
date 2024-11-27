@@ -4,8 +4,8 @@
             <v-img
                 class="mx-2"
                 :src="logo"
-                max-height="40"
-                max-width="40"
+                max-height="90"
+                max-width="90"
                 contain
             ></v-img>
             <v-app-bar-title  >Resume Management Application</v-app-bar-title>
@@ -13,9 +13,9 @@
             <v-toolbar-items>
                 <v-btn 
                     variant="text"
-                    @click="goList"
+                    @click="goTemplates"
                     >
-                  List
+                  Templates
                 </v-btn>
                 <v-btn 
                     variant="text"
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import logo from './assets/oc-logo-white.png'
+import logo from './assets/e3.gif'
 export default {
   name: 'App',
 
@@ -51,7 +51,7 @@ export default {
     goAdd() {
       this.$router.push({ name: 'add' });
     },
-    goList() {
+    goTemplates() {
       this.$router.push({ name: 'tutorials' });
     },
     goAccount() {
