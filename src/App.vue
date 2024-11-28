@@ -1,14 +1,16 @@
 <template>
     <v-app>
       <v-app-bar v-if="!isLoginPage">
-            <v-img
-                class="mx-2"
-                :src="logo"
-                max-height="90"
-                max-width="90"
-                contain
-            ></v-img>
-            <v-app-bar-title  >Resume Management Application</v-app-bar-title>
+            <v-btn @click="goCreateResume">
+                <v-img
+                    class="mx-2"
+                    :src="logo"
+                    max-height="90"
+                    max-width="90"
+                    contain
+                ></v-img>
+            </v-btn>
+            <v-app-bar-title>Resume Builder</v-app-bar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items>
                 <v-btn 
@@ -52,7 +54,10 @@ export default {
       this.$router.push({ name: 'add' });
     },
     goTemplates() {
-      this.$router.push({ name: 'tutorials' });
+      this.$router.push({ name: 'templates' });
+    },
+    goCreateResume() {
+      this.$router.push({ name: 'createresume'});
     },
     goAccount() {
       this.$router.push({ name: 'account' });

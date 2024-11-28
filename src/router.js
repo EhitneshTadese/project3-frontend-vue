@@ -1,4 +1,5 @@
 import { createWebHistory, createRouter } from "vue-router";
+import { components } from "vuetify/dist/vuetify-labs.js";
 const routes =  [
   {
     path: "/",
@@ -40,6 +41,12 @@ const routes =  [
     path: "/account",
     name: "account",
     component: () => import("./views/Account.vue"),
+    props: true
+  },
+  {
+    path: "/templates",
+    name: "templates",
+    component: () => import ("./views/Templates.vue"),
     props: true
   }
 ];
