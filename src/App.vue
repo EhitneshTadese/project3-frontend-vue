@@ -2,6 +2,7 @@
     <v-app>
       <v-app-bar v-if="!isLoginPage">
             <v-btn @click="goCreateResume">
+               
                 <v-img
                     class="mx-2"
                     :src="logo"
@@ -41,9 +42,12 @@ import logo from './assets/e3.gif'
 export default {
   name: 'App',
 
-  data: () => ({
-    logo,
-  }),
+  data: () => {
+    console.log('Logo loaded:', logo);
+    return {
+      logo,
+    };
+  },
   computed: {
     isLoginPage() {
       return this.$route.name === 'login';
