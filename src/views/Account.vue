@@ -140,14 +140,14 @@
   }
   
   .update-btn {
-    background-color: lightgreen;
+    background-color: #7DE2D1;
     border: none;
     padding: 5px 10px;
     cursor: pointer;
   }
   
   .update-btn:hover {
-    background-color: green;
+    background-color: #66C6B0;
     color: white;
   }
   
@@ -158,32 +158,6 @@
   .resume-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .delete-btn {
-    background-color: lightcoral;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-  }
-  
-  .delete-btn:hover {
-    background-color: red;
-    color: white;
-  }
-  
-  .preview-btn {
-    background-color: lightblue;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-  }
-  
-  .preview-btn:hover {
-    background-color: blue;
-    color: white;
   }
   </style>
   

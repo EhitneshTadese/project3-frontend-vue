@@ -7,36 +7,12 @@ const routes =  [
     component: () => import("./views/Login.vue")
   },
   {
-    path: "/create-resume",
+    path: "/CreateResume",
     name: "createresume",
     component: () => import("./views/CreateResume.vue")
   },
-  {
-    path: "/edit/:id",
-    name: "edit",
-    component: () => import("./views/EditTutorial.vue"),
-    props: true
-  },
- 
-  {
-    path: "/view",
-    name: "view",
-    component: () => import("./views/ViewTutorial.vue"),
-    props: true
-  },
-  {
-    path: "/addLesson",
-    name: "addLesson",
-    component: () => import("./views/AddLesson.vue"),
-    props: true
-  },
   
-  {
-    path: "/editLesson",
-    name: "editLesson",
-    component: () => import("./views/EditLesson.vue"),
-    props: true
-  },
+ 
   {
     path: "/account",
     name: "account",
