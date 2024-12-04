@@ -135,6 +135,24 @@
             </v-col>
           </v-row>
 
+          <!-- Interests Section -->
+          <v-divider class="my-4"></v-divider>
+          <h3>Interests</h3>
+          <v-row>
+            <v-col cols="12" md="6">
+              <v-text-field
+                label="Interest"
+                v-model="formData.interests.interest"
+              />
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-textarea
+                label="Description"
+                v-model="formData.interests.description"
+              />
+            </v-col>
+          </v-row>
+
           <!-- Awards Section -->
           <v-divider class="my-4"></v-divider>
           <h3>Awards</h3>
@@ -193,6 +211,10 @@ export default {
           project_name: "",
           description: "",
           project_link: "",
+        },
+        interests: {
+          interest: "",
+          description: "",
         },
         awards: {
           award_name: "",
