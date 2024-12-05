@@ -15,14 +15,13 @@
                     variant="text"
                     @click="goList"
                     >
-                  List
+                  Resume List
                 </v-btn>
                 <v-btn 
                     variant="text"
                     @click="goAccount"
                     >
-                  <v-icon left>mdi-account</v-icon>
-                  Account
+
                 </v-btn>
             </v-toolbar-items>
       </v-app-bar>
@@ -49,13 +48,10 @@ export default {
   },
   methods: {
     goAdd() {
-      this.$router.push({ name: 'add' });
+      this.$router.push({ name: 'create_resume' });
     },
     goList() {
-      this.$router.push({ name: 'tutorials' });
-    },
-    goAccount() {
-      this.$router.push({ name: 'account' });
+
     }
   },
 
