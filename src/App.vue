@@ -40,6 +40,14 @@ export default {
             logo: logo
         };
     },
+    watch: {
+        '$route': {
+            immediate: true,
+            handler(to) {
+                this.isLoginPage = to.name === 'login';
+            }
+        }
+    },
     methods: {
         goCreateResume() {
             this.$router.push({ name: 'createresume' });
