@@ -43,7 +43,7 @@ export default {
     googleLogin() {
       console.log("Google login initiated");
       // Simulate successful login
-      this.$router.push({ name: 'createresume' });
+      this.$router.push({ name: 'home' });
     },
   },
 };

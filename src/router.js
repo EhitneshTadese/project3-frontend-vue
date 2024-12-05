@@ -11,6 +11,26 @@ const routes =  [
     component: () => import("./views/CreateResume.vue")
   },
   {
+    path: "/all-resumes",
+    name: "all-resumes",
+    component: () => import("./views/yourResume.vue")
+  },
+  {
+    path: "/check-ai",
+    name: "check-ai",
+    component: () => import("./views/checkAI.vue")
+  },
+  {
+    path: "/upload-resume",
+    name: "upload-resume",
+    component: () => import("./views/uploadResume.vue")
+  },
+  {
+    path: "/home",
+    name: "home",
+    component: () => import("./views/home.vue")
+  },
+  {
     path: "/edit/:id",
     name: "edit",
     component: () => import("./views/EditTutorial.vue"),
@@ -42,6 +62,7 @@ const routes =  [
     component: () => import("./views/Account.vue"),
     props: true
   }
+  
 ];
 const router = createRouter({
   base: process.env.NODE_ENV === 'development' ? '/' : '/tutorial-frontend-1/',
