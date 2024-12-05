@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-app-bar v-if="!isLoginPage">
-          <v-btn @click="goCreateResume" class="d-inline-flex justify-center align-center" height="auto" width="auto" style="padding: 0;">
+          <v-btn @click="goHome" class="d-inline-flex justify-center align-center" height="auto" width="auto" style="padding: 0;">
   <v-img
     class="mx-2"
     :src="logo"
@@ -45,6 +45,9 @@ export default {
   methods: {
     goAdd() {
       this.$router.push({ name: 'add' });
+    },
+    goHome(){
+      this.$router.push({name: 'home'});
     },
     goList() {
       this.$router.push({ name: 'tutorials' });

@@ -236,20 +236,28 @@ export default {
             if (this.$refs.form.validate()) {
                 try {
                     this.message = "Submitting...";
-                    const response = await TutorialDataService.create(this.tutorial);
                     
-                    console.log("Resume created successfully:", response.data);
+                    // Directly save the tutorial data to local storage
+                    const resumes = JSON.parse(localStorage.getItem('resumes')) || [];
+                    const newResume = {
+                        id: Date.now(), // Generate a unique ID based on the current timestamp
+                        ...this.tutorial // Spread the tutorial data
+                    };
+                    resumes.push(newResume);
+                    localStorage.setItem('resumes', JSON.stringify(resumes));
+
+                    console.log("Resume created successfully:", newResume);
                     this.message = "Resume created successfully!";
                     
                     // Redirect to the resume view page after successful creation
+                    // Ensure the route name matches your router configuration
                     this.$router.push({ 
                         name: 'resume-view', 
-                        params: { id: response.data.id }
+                        params: { id: newResume.id } // Ensure this matches your route definition
                     });
                 } catch (error) {
                     console.error("Error creating resume:", error);
-                    this.message = "Error creating resume: " + 
-                        (error.response?.data?.message || "Please try again later");
+                    this.message = "Error creating resume: " + error.message;
                 }
             }
         },
@@ -259,7 +267,6 @@ export default {
     }
 }
 </script>
-
 <style scoped>
 .resume-preview {
     border: 1px solid #ccc;
