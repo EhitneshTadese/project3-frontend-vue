@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import logo from './assets/oc-logo-white.png'
+import logo from './assets/e3.gif'
 export default {
   name: 'App',
 
