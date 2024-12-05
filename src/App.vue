@@ -1,6 +1,6 @@
 <template>
     <v-app>
-      <v-app-bar  >
+      <v-app-bar v-if="!isLoginPage">
             <v-img
                 class="mx-2"
                 :src="logo"
@@ -19,9 +19,9 @@
                 </v-btn>
                 <v-btn 
                     variant="text"
-                    @click="goAdd"
+                    @click="goAccount"
                     >
-                  Create Resume
+
                 </v-btn>
             </v-toolbar-items>
       </v-app-bar>
@@ -41,12 +41,17 @@ export default {
   data: () => ({
     logo,
   }),
+  computed: {
+    isLoginPage() {
+      return this.$route.name === 'login';
+    },
+  },
   methods: {
     goAdd() {
       this.$router.push({ name: 'create_resume' });
     },
     goList() {
-      this.$router.push({ name: 'resumes' });
+
     }
   },
 

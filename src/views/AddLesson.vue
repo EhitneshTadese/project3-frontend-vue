@@ -15,7 +15,7 @@
             <v-col col="2"> </v-col>
             <v-col col="2">
                 <v-btn color="success" @click="saveLesson()"
-                    >Save</v-btn
+                    >Submit</v-btn
                 >
             </v-col>
             <v-col col="2">
