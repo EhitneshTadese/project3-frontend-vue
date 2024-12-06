@@ -58,126 +58,156 @@
                     <!-- Education Section -->
                     <v-divider class="my-4"></v-divider>
                     <h3>Education</h3>
-                    <v-row>
-                        <v-col cols="4">
+                    <v-row v-for="(edu, index) in tutorial.education" :key="'edu-'+index">
+                        <v-col cols="12" md="4">
                             <v-text-field
                                 label="Degree"
-                                v-model="tutorial.education.degree"
+                                v-model="edu.degree"
                             />
                         </v-col>
-                        <v-col cols="4">
+                        <v-col cols="12" md="4">
                             <v-text-field
                                 label="Institution"
-                                v-model="tutorial.education.institution"
+                                v-model="edu.institution"
                             />
                         </v-col>
-                        <v-col cols="4">
+                        <v-col cols="12" md="3">
                             <v-text-field
                                 label="Graduation Date"
-                                v-model="tutorial.education.graduationDate"
+                                v-model="edu.graduationDate"
                                 type="date"
                             />
                         </v-col>
+                        <v-col cols="12" md="1">
+                            <v-btn icon color="error" @click="removeEducation(index)" v-if="tutorial.education.length > 1">
+                                <v-icon>mdi-delete</v-icon>
+                            </v-btn>
+                        </v-col>
                     </v-row>
+                    <v-btn @click="addEducation" color="primary" class="mb-4">Add Education</v-btn>
 
                     <!-- Experience Section -->
                     <v-divider class="my-4"></v-divider>
                     <h3>Experience</h3>
-                    <v-row>
-                        <v-col cols="4">
+                    <v-row v-for="(exp, index) in tutorial.experience" :key="'exp-'+index">
+                        <v-col cols="12" md="4">
                             <v-text-field
                                 label="Job Title"
-                                v-model="tutorial.experience.jobTitle"
+                                v-model="exp.jobTitle"
                             />
                         </v-col>
-                        <v-col cols="4">
+                        <v-col cols="12" md="4">
                             <v-text-field
                                 label="Company Name"
-                                v-model="tutorial.experience.companyName"
+                                v-model="exp.companyName"
                             />
                         </v-col>
-                        <v-col cols="4">
+                        <v-col cols="12" md="3">
                             <v-text-field
                                 label="Start Date"
-                                v-model="tutorial.experience.startDate"
+                                v-model="exp.startDate"
                                 type="date"
                             />
                         </v-col>
-                        <v-col cols="4">
+                        <v-col cols="12" md="3">
                             <v-text-field
                                 label="End Date"
-                                v-model="tutorial.experience.endDate"
+                                v-model="exp.endDate"
                                 type="date"
                             />
                         </v-col>
-                        <v-col cols="4">
+                        <v-col cols="12" md="3">
                             <v-text-field
                                 label="Job Description"
-                                v-model="tutorial.experience.description"
+                                v-model="exp.description"
                             />
+                        </v-col>
+                        <v-col cols="12" md="1">
+                            <v-btn icon color="error" @click="removeExperience(index)" v-if="tutorial.experience.length > 1">
+                                <v-icon>mdi-delete</v-icon>
+                            </v-btn>
                         </v-col>
                     </v-row>
-
-                    <!-- Projects Section -->
-                    <v-divider class="my-4"></v-divider>
-                    <h3>Projects</h3>
-                    <v-row>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="Project Name"
-                                v-model="tutorial.projects[0].name"
-                            />
-                        </v-col>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="Description"
-                                v-model="tutorial.projects[0].description"
-                            />
-                        </v-col>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="Project Link"
-                                v-model="tutorial.projects[0].link"
-                            />
-                        </v-col>
-                    </v-row>
+                    <v-btn @click="addExperience" color="primary" class="mb-4">Add Experience</v-btn>
 
                     <!-- Skills Section -->
                     <v-divider class="my-4"></v-divider>
                     <h3>Skills</h3>
-                    <v-row>
-                        <v-col cols="4">
+                    <v-row v-for="(skill, index) in tutorial.skills" :key="'skill-'+index">
+                        <v-col cols="12" md="5">
                             <v-text-field
                                 label="Skill Name"
-                                v-model="tutorial.skills[0].name"
+                                v-model="skill.name"
                             />
                         </v-col>
-                        <v-col cols="4">
+                        <v-col cols="12" md="6">
                             <v-text-field
                                 label="Proficiency Level"
-                                v-model="tutorial.skills[0].proficiency"
+                                v-model="skill.proficiency"
                             />
                         </v-col>
+                        <v-col cols="12" md="1">
+                            <v-btn icon color="error" @click="removeSkill(index)" v-if="tutorial.skills.length > 1">
+                                <v-icon>mdi-delete</v-icon>
+                            </v-btn>
+                        </v-col>
                     </v-row>
+                    <v-btn @click="addSkill" color="primary" class="mb-4">Add Skill</v-btn>
 
                     <!-- Awards Section -->
                     <v-divider class="my-4"></v-divider>
                     <h3>Awards</h3>
-                    <v-row>
-                        <v-col cols="4">
+                    <v-row v-for="(award, index) in tutorial.awards" :key="'award-'+index">
+                        <v-col cols="12" md="5">
                             <v-text-field
                                 label="Award Name"
-                                v-model="tutorial.awards[0].name"
+                                v-model="award.name"
                             />
                         </v-col>
-                        <v-col cols="4">
+                        <v-col cols="12" md="6">
                             <v-text-field
                                 label="Date Earned"
-                                v-model="tutorial.awards[0].date"
+                                v-model="award.date"
                                 type="date"
                             />
                         </v-col>
+                        <v-col cols="12" md="1">
+                            <v-btn icon color="error" @click="removeAward(index)" v-if="tutorial.awards.length > 1">
+                                <v-icon>mdi-delete</v-icon>
+                            </v-btn>
+                        </v-col>
                     </v-row>
+                    <v-btn @click="addAward" color="primary" class="mb-4">Add Award</v-btn>
+
+                    <!-- Projects Section -->
+                    <v-divider class="my-4"></v-divider>
+                    <h3>Projects</h3>
+                    <v-row v-for="(project, index) in tutorial.projects" :key="'proj-'+index">
+                        <v-col cols="12" md="4">
+                            <v-text-field
+                                label="Project Name"
+                                v-model="project.name"
+                            />
+                        </v-col>
+                        <v-col cols="12" md="4">
+                            <v-text-field
+                                label="Description"
+                                v-model="project.description"
+                            />
+                        </v-col>
+                        <v-col cols="12" md="3">
+                            <v-text-field
+                                label="Project Link"
+                                v-model="project.link"
+                            />
+                        </v-col>
+                        <v-col cols="12" md="1">
+                            <v-btn icon color="error" @click="removeProject(index)" v-if="tutorial.projects.length > 1">
+                                <v-icon>mdi-delete</v-icon>
+                            </v-btn>
+                        </v-col>
+                    </v-row>
+                    <v-btn @click="addProject" color="primary" class="mb-4">Add Project</v-btn>
 
                     <v-row justify="center">
                         <v-col col="2">
@@ -208,21 +238,31 @@ export default {
                 resumeName: "",
                 templateType: "",
                 introduction: "",
-                education: {
+                education: [{ 
                     degree: "",
                     institution: "",
                     graduationDate: ""
-                },
-                experience: {
+                }],
+                experience: [{
                     jobTitle: "",
                     companyName: "",
                     startDate: "",
                     endDate: "",
                     description: ""
-                },
-                projects: [{ name: "", description: "", link: "" }],
-                skills: [{ name: "", proficiency: "" }],
-                awards: [{ name: "", date: "" }]
+                }],
+                skills: [{ 
+                    name: "", 
+                    proficiency: "" 
+                }],
+                awards: [{ 
+                    name: "", 
+                    date: "" 
+                }],
+                projects: [{ 
+                    name: "", 
+                    description: "", 
+                    link: "" 
+                }]
             },
             message: "Enter data and click Submit",
             rules: {
@@ -287,6 +327,66 @@ export default {
         },
         cancel() {
             this.$router.push({ name: 'account' });
+        },
+        addEducation() {
+            this.tutorial.education.push({
+                degree: "",
+                institution: "",
+                graduationDate: ""
+            });
+        },
+        removeEducation(index) {
+            if (this.tutorial.education.length > 1) {
+                this.tutorial.education.splice(index, 1);
+            }
+        },
+        addExperience() {
+            this.tutorial.experience.push({
+                jobTitle: "",
+                companyName: "",
+                startDate: "",
+                endDate: "",
+                description: ""
+            });
+        },
+        removeExperience(index) {
+            if (this.tutorial.experience.length > 1) {
+                this.tutorial.experience.splice(index, 1);
+            }
+        },
+        addSkill() {
+            this.tutorial.skills.push({
+                name: "",
+                proficiency: ""
+            });
+        },
+        removeSkill(index) {
+            if (this.tutorial.skills.length > 1) {
+                this.tutorial.skills.splice(index, 1);
+            }
+        },
+        addAward() {
+            this.tutorial.awards.push({
+                name: "",
+                date: ""
+            });
+        },
+        removeAward(index) {
+            if (this.tutorial.awards.length > 1) {
+                this.tutorial.awards.splice(index, 1);
+            }
+        },
+        addProject() {
+            this.tutorial.projects.push({
+                name: "",
+                description: "",
+                link: ""
+            });
+        },
+        removeProject(index) {
+            if (this.tutorial.projects.length > 1) {
+                this.tutorial.projects.splice(index, 1);
+            }
         }
     }
 }
@@ -296,5 +396,8 @@ export default {
     border: 1px solid #ccc;
     padding: 20px;
     margin-top: 20px;
+}
+.mb-4 {
+    margin-bottom: 1rem;
 }
 </style>
