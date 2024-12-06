@@ -7,10 +7,18 @@
         <div class="underline"></div>
       </div>
       <div class="contact-info">
-        <span><i class="mdi mdi-map-marker"></i> {{ resume.address }}</span>
-        <span><i class="mdi mdi-phone"></i> {{ resume.phone }}</span>
-        <span><i class="mdi mdi-email"></i> {{ resume.email }}</span>
-        <span v-if="resume.linkedin"><i class="mdi mdi-linkedin"></i> {{ resume.linkedin }}</span>
+        <div v-if="resume.address" class="contact-item">
+          <i class="mdi mdi-map-marker"></i> {{ resume.address }}
+        </div>
+        <div v-if="resume.phone" class="contact-item">
+          <i class="mdi mdi-phone"></i> {{ resume.phone }}
+        </div>
+        <div v-if="resume.email" class="contact-item">
+          <i class="mdi mdi-email"></i> {{ resume.email }}
+        </div>
+        <div v-if="resume.linkedin" class="contact-item">
+          <i class="mdi mdi-linkedin"></i> {{ resume.linkedin }}
+        </div>
       </div>
     </div>
 
@@ -25,8 +33,32 @@
       </div>
     </div>
 
+    <!-- Experience -->
+    <div v-if="resume.experience && resume.experience.length" class="section">
+      <div class="section-header">
+        <i class="mdi mdi-briefcase section-icon"></i>
+        <h2>Professional Experience</h2>
+      </div>
+      <div class="section-content">
+        <div v-for="(exp, index) in resume.experience" :key="'exp-'+index" class="experience-item">
+          <div class="exp-header">
+            <div class="exp-title">
+              <h3>{{ exp.jobTitle }}</h3>
+              <div class="company">{{ exp.companyName }}</div>
+            </div>
+            <span class="date">
+              {{ formatDate(exp.startDate) }} - {{ exp.endDate ? formatDate(exp.endDate) : 'Present' }}
+            </span>
+          </div>
+          <div v-if="exp.description" class="description">
+            {{ exp.description }}
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Education -->
-    <div class="section">
+    <div v-if="resume.education && resume.education.length" class="section">
       <div class="section-header">
         <i class="mdi mdi-school section-icon"></i>
         <h2>Education</h2>
@@ -38,31 +70,7 @@
             <span class="date">{{ formatDate(edu.graduationDate) }}</span>
           </div>
           <div class="degree">{{ edu.degree }}</div>
-          <div v-if="edu.gpa && parseFloat(edu.gpa) > 3.0" class="gpa">
-            GPA: {{ edu.gpa }}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Experience -->
-    <div class="section">
-      <div class="section-header">
-        <i class="mdi mdi-briefcase section-icon"></i>
-        <h2>Experience</h2>
-      </div>
-      <div class="section-content">
-        <div v-for="(exp, index) in resume.experience" :key="'exp-'+index" class="experience-item">
-          <div class="exp-header">
-            <div class="exp-title">
-              <h3>{{ exp.jobTitle }}</h3>
-              <div class="company">{{ exp.companyName }}</div>
-            </div>
-            <span class="date">{{ formatDateShort(exp.startDate) }} – {{ formatDateShort(exp.endDate) || 'Present' }}</span>
-          </div>
-          <ul v-if="exp.description" class="experience-bullets">
-            <li>{{ exp.description }}</li>
-          </ul>
+          <div v-if="edu.gpa" class="gpa">GPA: {{ edu.gpa }}</div>
         </div>
       </div>
     </div>
@@ -80,6 +88,33 @@
         </div>
       </div>
     </div>
+
+    <!-- Awards -->
+    <div v-if="resume.awards && resume.awards.length" class="section">
+      <div class="section-header">
+        <i class="mdi mdi-trophy section-icon"></i>
+        <h2>Awards & Achievements</h2>
+      </div>
+      <div class="section-content">
+        <div v-for="(award, index) in resume.awards" :key="'award-'+index" class="award-item">
+          <div class="award-header">
+            <span class="award-name">{{ award.name }}</span>
+            <span class="date">{{ formatDate(award.date) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activities -->
+    <div v-if="resume.activities" class="section">
+      <div class="section-header">
+        <i class="mdi mdi-account-group section-icon"></i>
+        <h2>Activities</h2>
+      </div>
+      <div class="section-content">
+        {{ resume.activities }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -87,61 +122,66 @@
 .classic-template {
   max-width: 850px;
   margin: 0 auto;
-  padding: 2rem;
-  font-family: 'Crimson Text', Georgia, serif;
+  padding: 3rem;
+  font-family: 'Playfair Display', Georgia, serif;
   line-height: 1.6;
-  color: #2c3e50;
-  background: #fff;
-  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  color: #1a1a1a;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
+  position: relative;
+  padding-bottom: 2rem;
 }
 
-.name-section {
-  position: relative;
-  display: inline-block;
-  margin-bottom: 1rem;
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 2px;
+  background: #c0a080;
 }
 
 .name-section h1 {
-  font-size: 2.5rem;
-  color: #2c3e50;
+  font-size: 3rem;
+  color: #2d2d2d;
   margin: 0;
   font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.underline {
-  height: 3px;
-  background: linear-gradient(to right, #2c3e50, #3498db);
-  margin-top: 0.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 .contact-info {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  font-family: 'Lato', sans-serif;
   font-size: 0.95rem;
-  color: #666;
 }
 
-.contact-info span {
+.contact-item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: #666;
 }
 
-.contact-info i {
-  color: #3498db;
+.contact-item i {
+  color: #c0a080;
+  font-size: 1.2rem;
 }
 
 .section {
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
+  margin-bottom: 3rem;
+  position: relative;
 }
 
 .section-header {
@@ -149,125 +189,186 @@
   align-items: center;
   gap: 1rem;
   margin-bottom: 1.5rem;
-  border-bottom: 2px solid #ecf0f1;
-  padding-bottom: 0.5rem;
+  border-bottom: none;
+  position: relative;
+}
+
+.section-header::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, #c0a080 50%, #e0e0e0 50%);
 }
 
 .section-icon {
   font-size: 1.5rem;
-  color: #3498db;
+  color: #c0a080;
 }
 
 .section h2 {
-  font-size: 1.5rem;
-  color: #2c3e50;
+  font-size: 1.6rem;
+  color: #2d2d2d;
   margin: 0;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.section-content {
+  padding: 1rem 0;
+  font-family: 'Lato', sans-serif;
 }
 
 .summary {
   text-align: justify;
-  padding: 0 1rem;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #404040;
 }
 
-.edu-header, .exp-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 0.5rem;
+.education-item, .experience-item, .award-item {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #fafafa;
+  border: none;
+  position: relative;
+  transition: transform 0.2s ease;
 }
 
-.edu-header h3, .exp-header h3 {
-  font-size: 1.2rem;
-  color: #2c3e50;
+.education-item::before, 
+.experience-item::before, 
+.award-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: #c0a080;
+  transition: height 0.2s ease;
+}
+
+.education-item:hover::before, 
+.experience-item:hover::before, 
+.award-item:hover::before {
+  height: 100%;
+}
+
+.edu-header h3, 
+.exp-header h3 {
+  font-size: 1.3rem;
+  color: #2d2d2d;
   margin: 0;
+  font-weight: 600;
 }
 
 .degree {
-  color: #666;
+  color: #404040;
   font-style: italic;
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
 }
 
 .company {
   color: #666;
-  font-size: 0.95rem;
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 
 .date {
-  color: #95a5a6;
+  color: #c0a080;
   font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
-.experience-bullets {
-  list-style-type: none;
-  padding-left: 1.5rem;
-  margin-top: 0.5rem;
-}
-
-.experience-bullets li {
-  position: relative;
-  margin-bottom: 0.5rem;
-}
-
-.experience-bullets li::before {
-  content: "•";
-  color: #3498db;
-  position: absolute;
-  left: -1rem;
+.description {
+  margin-top: 1rem;
+  color: #404040;
+  line-height: 1.8;
+  white-space: pre-line;
 }
 
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
-  padding: 0 1rem;
+  gap: 1.5rem;
 }
 
 .skill-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 1rem;
-  background: #f8f9fa;
-  border-radius: 4px;
-  border-left: 3px solid #3498db;
-  transition: transform 0.2s ease;
+  padding: 1rem 1.5rem;
+  background: #fafafa;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
 }
 
 .skill-item:hover {
-  transform: translateX(5px);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  border-color: #c0a080;
+}
+
+.skill-name {
+  font-weight: 600;
+  color: #2d2d2d;
 }
 
 .skill-level {
-  font-size: 0.9rem;
-  color: #3498db;
+  color: #c0a080;
   font-weight: 500;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.award-name {
+  font-weight: 600;
+  color: #2d2d2d;
+  font-size: 1.1rem;
 }
 
 @media print {
   .classic-template {
     padding: 0;
-    box-shadow: none;
+    border: none;
+  }
+  
+  .education-item, 
+  .experience-item, 
+  .award-item,
+  .skill-item {
+    break-inside: avoid;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .classic-template {
+    padding: 1.5rem;
+  }
+
+  .name-section h1 {
+    font-size: 2.2rem;
+  }
+
   .contact-info {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .edu-header, 
+  .exp-header, 
+  .award-header {
     flex-direction: column;
     gap: 0.5rem;
   }
 
-  .edu-header, .exp-header {
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
   .skills-grid {
     grid-template-columns: 1fr;
-  }
-
-  .name-section h1 {
-    font-size: 2rem;
   }
 }
 </style>
@@ -283,13 +384,6 @@ export default {
     formatDate: {
       type: Function,
       required: true
-    }
-  },
-  methods: {
-    formatDateShort(date) {
-      if (!date) return '';
-      const d = new Date(date);
-      return `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getFullYear()).slice(-2)}`;
     }
   }
 }

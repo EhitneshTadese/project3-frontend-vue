@@ -1,75 +1,90 @@
 <template>
-  <div class="minimal-template">
+  <div class="professional-template">
     <!-- Header -->
     <div class="header">
       <h1>{{ resume.name }}</h1>
       <div class="contact-info">
-        {{ resume.address }} | {{ resume.phone }} | {{ resume.email }}
-        <template v-if="resume.linkedin">| {{ resume.linkedin }}</template>
+        <div v-if="resume.address" class="contact-item">
+          <i class="mdi mdi-map-marker"></i> {{ resume.address }}
+        </div>
+        <div v-if="resume.phone" class="contact-item">
+          <i class="mdi mdi-phone"></i> {{ resume.phone }}
+        </div>
+        <div v-if="resume.email" class="contact-item">
+          <i class="mdi mdi-email"></i> {{ resume.email }}
+        </div>
+        <div v-if="resume.linkedin" class="contact-item">
+          <i class="mdi mdi-linkedin"></i> {{ resume.linkedin }}
+        </div>
       </div>
     </div>
 
     <!-- Professional Summary -->
     <div v-if="resume.professionalSummary" class="section">
-      <h2>PROFESSIONAL SUMMARY</h2>
-      <p>{{ resume.professionalSummary }}</p>
-    </div>
-
-    <!-- Education -->
-    <div class="section">
-      <h2>EDUCATION</h2>
-      <div v-for="(edu, index) in resume.education" :key="'edu-'+index" class="education-item">
-        <div class="flex-between">
-          <strong>{{ edu.institution }}</strong>
-          <span>{{ formatDate(edu.graduationDate) }}</span>
-        </div>
-        <div>{{ edu.degree }}</div>
-        <div v-if="edu.gpa">GPA: {{ edu.gpa }}</div>
+      <h2>Professional Summary</h2>
+      <div class="content">
+        {{ resume.professionalSummary }}
       </div>
     </div>
 
     <!-- Experience -->
-    <div class="section">
-      <h2>EXPERIENCE</h2>
+    <div v-if="resume.experience && resume.experience.length" class="section">
+      <h2>Professional Experience</h2>
       <div v-for="(exp, index) in resume.experience" :key="'exp-'+index" class="experience-item">
-        <div class="flex-between">
-          <div>
-            <strong>{{ exp.jobTitle }}</strong>
-            <div class="company-name">{{ exp.companyName }}</div>
-          </div>
-          <span>{{ formatDate(exp.startDate) }} - {{ formatDate(exp.endDate) || 'Present' }}</span>
+        <div class="title-row">
+          <h3>{{ exp.jobTitle }}</h3>
+          <span class="date">
+            {{ formatDate(exp.startDate) }} - {{ exp.endDate ? formatDate(exp.endDate) : 'Present' }}
+          </span>
         </div>
-        <ul v-if="exp.description">
-          <li>{{ exp.description }}</li>
-        </ul>
+        <div class="company">{{ exp.companyName }}</div>
+        <div v-if="exp.description" class="description">
+          {{ exp.description }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div v-if="resume.education && resume.education.length" class="section">
+      <h2>Education</h2>
+      <div v-for="(edu, index) in resume.education" :key="'edu-'+index" class="education-item">
+        <div class="title-row">
+          <h3>{{ edu.institution }}</h3>
+          <span class="date">{{ formatDate(edu.graduationDate) }}</span>
+        </div>
+        <div class="degree">{{ edu.degree }}</div>
+        <div v-if="edu.gpa" class="gpa">GPA: {{ edu.gpa }}</div>
       </div>
     </div>
 
     <!-- Skills -->
     <div v-if="resume.skills && resume.skills.length" class="section">
-      <h2>SKILLS</h2>
-      <div class="skills-list">
+      <h2>Skills</h2>
+      <div class="skills-grid">
         <div v-for="(skill, index) in resume.skills" :key="'skill-'+index" class="skill-item">
-          {{ skill.name }} - {{ skill.proficiency }}
+          <span class="skill-name">{{ skill.name }}</span>
+          <span class="skill-level">{{ skill.proficiency }}</span>
         </div>
       </div>
     </div>
 
     <!-- Awards -->
     <div v-if="resume.awards && resume.awards.length" class="section">
-      <h2>AWARDS & ACHIEVEMENTS</h2>
+      <h2>Awards & Achievements</h2>
       <div v-for="(award, index) in resume.awards" :key="'award-'+index" class="award-item">
-        <div class="flex-between">
-          <strong>{{ award.name }}</strong>
-          <span>{{ formatDate(award.date) }}</span>
+        <div class="title-row">
+          <span class="award-name">{{ award.name }}</span>
+          <span class="date">{{ formatDate(award.date) }}</span>
         </div>
       </div>
     </div>
 
     <!-- Activities -->
     <div v-if="resume.activities" class="section">
-      <h2>ACTIVITIES</h2>
-      <p>{{ resume.activities }}</p>
+      <h2>Activities</h2>
+      <div class="content">
+        {{ resume.activities }}
+      </div>
     </div>
   </div>
 </template>
@@ -91,81 +106,159 @@ export default {
 </script>
 
 <style scoped>
-.minimal-template {
+.professional-template {
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
-  font-family: 'Times New Roman', Times, serif;
-  line-height: 1.5;
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: #333;
 }
 
 .header {
   text-align: center;
   margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #2196F3;
 }
 
 .header h1 {
-  font-size: 24px;
-  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  color: #1976D2;
+  margin-bottom: 1rem;
 }
 
 .contact-info {
-  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+}
+
+.contact-item i {
+  color: #1976D2;
 }
 
 .section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .section h2 {
-  font-size: 16px;
-  font-weight: bold;
-  border-bottom: 1px solid #000;
+  color: #1976D2;
+  font-size: 1.5rem;
   margin-bottom: 1rem;
-  padding-bottom: 0.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+}
+
+.title-row h3 {
+  color: #333;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.company {
+  color: #666;
+  font-style: italic;
+  margin-bottom: 0.5rem;
+}
+
+.date {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.description {
+  margin-top: 0.5rem;
+  color: #555;
+  white-space: pre-line;
 }
 
 .education-item, .experience-item, .award-item {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  border-left: 3px solid #1976D2;
 }
 
-.flex-between {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+.degree {
+  color: #444;
+  font-weight: 500;
 }
 
-.company-name {
-  font-style: italic;
+.gpa {
+  color: #666;
+  font-size: 0.9rem;
 }
 
-ul {
-  margin-top: 0.5rem;
-  padding-left: 1.5rem;
-}
-
-.skills-list {
+.skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .skill-item {
-  padding: 0.25rem 0;
+  background-color: #f5f5f5;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  border-left: 3px solid #1976D2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skill-name {
+  font-weight: 500;
+}
+
+.skill-level {
+  color: #1976D2;
+  font-size: 0.9rem;
+}
+
+.award-name {
+  font-weight: 500;
+}
+
+.content {
+  color: #555;
+  line-height: 1.8;
+  white-space: pre-line;
 }
 
 @media print {
-  .minimal-template {
+  .professional-template {
     padding: 0;
   }
 }
 
 @media (max-width: 600px) {
-  .flex-between {
+  .contact-info {
     flex-direction: column;
+    gap: 0.5rem;
   }
-  
-  .skills-list {
+
+  .title-row {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .skills-grid {
     grid-template-columns: 1fr;
   }
 }
