@@ -14,10 +14,24 @@
             <v-app-bar-title>Resume Builder</v-app-bar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items>
+
                 <v-btn variant="text" @click="goTemplates">Templates</v-btn>
                 <v-btn variant="text" @click="goAccount">
                     <v-icon left>mdi-account</v-icon>
                     Account
+
+                <v-btn 
+                    variant="text"
+                    @click="goList"
+                    >
+                  Resume List
+                </v-btn>
+                <v-btn 
+                    variant="text"
+                    @click="goAccount"
+                    >
+
+
                 </v-btn>
             </v-toolbar-items>
         </v-app-bar>
@@ -44,16 +58,13 @@ export default {
   },
   methods: {
     goAdd() {
-      this.$router.push({ name: 'add' });
+      this.$router.push({ name: 'create_resume' });
     },
     goHome(){
       this.$router.push({name: 'home'});
     },
     goList() {
-      this.$router.push({ name: 'tutorials' });
-    },
-    goAccount() {
-      this.$router.push({ name: 'account' });
+
     }
   },
 
