@@ -1,0 +1,1 @@
+import{h as e}from"./http-common.d7138537.js";class s{getAll(){return e.get("/")}create(r){return e.post("/create",r)}getAllUsers(){return e.get("/users")}getUserResumes(){return e.get("/user_resumes")}get(r){return e.get(`/${r}`)}update(r,t){return e.put(`/${r}`,t)}}var g=new s;export{g as R};
