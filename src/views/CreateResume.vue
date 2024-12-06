@@ -231,29 +231,53 @@ export default {
             }
         };
     },
+    created() {
+        const resumeId = this.$route.params.id;
+        if (resumeId) {
+            const resumes = JSON.parse(localStorage.getItem('resumes')) || [];
+            const existingResume = resumes.find(resume => resume.id === parseInt(resumeId));
+            if (existingResume) {
+                this.tutorial = { ...existingResume };
+            }
+        }
+    },
     methods: {
         async submitTutorial() {
             if (this.$refs.form.validate()) {
                 try {
                     this.message = "Submitting...";
                     
-                    // Directly save the tutorial data to local storage
-                    const resumes = JSON.parse(localStorage.getItem('resumes')) || [];
+                    // Create a new resume object with all the necessary data
                     const newResume = {
-                        id: Date.now(), // Generate a unique ID based on the current timestamp
-                        ...this.tutorial // Spread the tutorial data
+                        id: Date.now(),
+                        uploadDate: new Date().toISOString(),
+                        resumeName: this.tutorial.resumeName || 'Untitled Resume',
+                        name: this.tutorial.name,
+                        email: this.tutorial.email,
+                        address: this.tutorial.address,
+                        introduction: this.tutorial.introduction,
+                        templateType: this.tutorial.templateType,
+                        education: { ...this.tutorial.education },
+                        experience: { ...this.tutorial.experience },
+                        projects: [...this.tutorial.projects],
+                        skills: [...this.tutorial.skills],
+                        awards: [...this.tutorial.awards]
                     };
-                    resumes.push(newResume);
+                    const index = resumes.findIndex(resume => resume.id === newResume.id);
+                    if (index !== -1) {
+                        resumes[index] = newResume; // Update existing resume
+                    } else {
+                        resumes.push(newResume); // Add new resume
+                    }
                     localStorage.setItem('resumes', JSON.stringify(resumes));
 
                     console.log("Resume created successfully:", newResume);
                     this.message = "Resume created successfully!";
                     
                     // Redirect to the resume view page after successful creation
-                    // Ensure the route name matches your router configuration
                     this.$router.push({ 
                         name: 'resume-view', 
-                        params: { id: newResume.id } // Ensure this matches your route definition
+                        params: { id: newResume.id }
                     });
                 } catch (error) {
                     console.error("Error creating resume:", error);

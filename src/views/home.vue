@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     goCreateResume() {
-      this.$router.push({ name: "createresume" }); // Navigate to Create Resume page
+      this.$router.push({ name: "create-resume" }); // Navigate to Create Resume page
     },
     goAllResumes() {
       this.$router.push({ name: "all-resumes" }); // Navigate to All Resumes page

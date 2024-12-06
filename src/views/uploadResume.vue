@@ -51,49 +51,106 @@
 
 <script>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
+    const router = useRouter();
     const fileName = ref("");
     const selectedFile = ref(null);
     const isUploading = ref(false);
     const snackbar = ref(false);
     const snackbarText = ref("");
     const snackbarColor = ref("success");
+    const fileInput = ref(null);
 
     const triggerFileInput = () => {
       document.querySelector('input[type="file"]').click();
     };
 
-    const handleFileUpload = (event) => {
+    const handleFileUpload = async (event) => {
       const file = event.target.files[0];
       if (file) {
         fileName.value = file.name;
         selectedFile.value = file;
+
+        // Read file content
+        try {
+          const text = await readFileContent(file);
+          // Store the file content
+          selectedFile.value = {
+            name: file.name,
+            content: text,
+            type: file.type
+          };
+        } catch (error) {
+          console.error('Error reading file:', error);
+          showSnackbar('Error reading file', 'error');
+        }
       }
     };
 
-    const submitResume = () => {
+    const readFileContent = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = (e) => reject(e);
+        reader.readAsText(file);
+      });
+    };
+
+    const submitResume = async () => {
       if (!selectedFile.value) return;
 
       isUploading.value = true;
 
-      // Create a resume object
-      const resume = {
-        id: Date.now(), // Unique ID for the resume
-        fileName: fileName.value,
-        uploadDate: new Date().toISOString(),
-      };
+      try {
+        // Create a resume object with the file content
+        const resume = {
+          id: Date.now(),
+          uploadDate: new Date().toISOString(),
+          resumeName: fileName.value,
+          content: selectedFile.value.content,
+          fileType: selectedFile.value.type,
+          // Add basic parsed data structure
+          name: "",
+          email: "",
+          address: "",
+          education: {
+            degree: "",
+            institution: "",
+            graduationDate: ""
+          },
+          experience: {
+            jobTitle: "",
+            companyName: "",
+            startDate: "",
+            endDate: "",
+            description: ""
+          },
+          skills: [],
+          projects: [],
+          awards: []
+        };
 
-      // Store the resume in localStorage
-      const resumes = JSON.parse(localStorage.getItem('resumes')) || [];
-      resumes.push(resume);
-      localStorage.setItem('resumes', JSON.stringify(resumes));
+        // Store the resume in localStorage
+        const resumes = JSON.parse(localStorage.getItem('resumes')) || [];
+        resumes.push(resume);
+        localStorage.setItem('resumes', JSON.stringify(resumes));
 
-      showSnackbar('Resume uploaded successfully!', 'success');
-      fileName.value = ""; // Reset the file name
-      selectedFile.value = null; // Reset the selected file
-      isUploading.value = false;
+        showSnackbar('Resume uploaded successfully!', 'success');
+        
+        // Navigate to the resume view
+        router.push({ 
+          name: 'resume-view', 
+          params: { id: resume.id }
+        });
+      } catch (error) {
+        console.error('Error uploading resume:', error);
+        showSnackbar('Error uploading resume', 'error');
+      } finally {
+        isUploading.value = false;
+      }
     };
 
     const showSnackbar = (text, color) => {
@@ -109,6 +166,7 @@ export default {
       snackbar,
       snackbarText,
       snackbarColor,
+      fileInput,
       triggerFileInput,
       handleFileUpload,
       submitResume,

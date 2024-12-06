@@ -31,6 +31,8 @@
 
 <script>
 import logo from './assets/e3.gif'
+import { useRouter } from 'vue-router';
+
 export default {
   name: 'App',
 
@@ -54,6 +56,12 @@ export default {
     },
     goAccount() {
       this.$router.push({ name: 'account' });
+    },
+    goTemplates() {
+      this.$router.push({ name: 'templates' });
+    },
+    goToCreate() {
+      this.$router.push({ name: 'create-resume' });
     }
   },
 
