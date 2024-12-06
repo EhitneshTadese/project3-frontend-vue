@@ -85,6 +85,11 @@ const routes =  [
     path: '/resume/:id',
     name: 'resume-view',
     component: () => import('./views/ResumeView.vue')
+  },
+  {
+    path: '/your-resume',
+    name: 'your-resume',
+    component: () => import('./views/yourResume.vue')
   }
 ];
 const router = createRouter({

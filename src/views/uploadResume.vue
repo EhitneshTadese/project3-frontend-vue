@@ -142,8 +142,7 @@ export default {
         
         // Navigate to the resume view
         router.push({ 
-          name: 'resume-view', 
-          params: { id: resume.id }
+          name: 'your-resume'
         });
       } catch (error) {
         console.error('Error uploading resume:', error);
