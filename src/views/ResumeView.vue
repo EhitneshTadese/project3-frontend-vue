@@ -6,13 +6,13 @@
         @click="selectedTemplate = 'modern'"
         :class="{ active: selectedTemplate === 'modern' }"
       >
-        MODERN TEMPLATE
+        CLASSIC TEMPLATE
       </v-btn>
       <v-btn
         @click="selectedTemplate = 'classic'"
         :class="{ active: selectedTemplate === 'classic' }"
       >
-        CLASSIC TEMPLATE
+        MODERN TEMPLATE
       </v-btn>
       <v-btn
         @click="selectedTemplate = 'professional'"

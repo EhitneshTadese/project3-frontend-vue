@@ -10,13 +10,13 @@
         <v-btn large block @click="goCreateResume" color="primary">Create Resume</v-btn>
       </v-col>
       <v-col cols="12" sm="6" md="3">
-        <v-btn large block @click="goAllResumes" color="primary">All Your Resumes</v-btn>
+        <v-btn large block @click="goAllResumes" color="primary">My Resumes</v-btn>
       </v-col>
       <v-col cols="12" sm="6" md="3">
         <v-btn large block @click="goCheckAI" color="primary">Check with AI</v-btn>
       </v-col>
       <v-col cols="12" sm="6" md="3">
-        <v-btn large block @click="goUploadResume" color="primary">Upload Your Resume</v-btn>
+        <v-btn large block @click="goUploadResume" color="primary">Upload Resume</v-btn>
       </v-col>
     </v-row>
   </v-container>
