@@ -41,9 +41,8 @@ export default {
       }
     },
     googleLogin() {
-      console.log("Google login initiated");
-      // Simulate successful login
-      this.$router.push({ name: 'home' });
+      const googleAuthUrl = 'http://localhost:3000/auth/google'; // Ensure this matches your backend URL
+      window.location.href = googleAuthUrl; // Redirect to Google OAuth
     },
   },
 };
