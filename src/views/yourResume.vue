@@ -7,7 +7,7 @@
       <v-col v-for="resume in resumes" :key="resume.id" cols="12" md="6" lg="4">
         <v-card class="mx-auto" max-width="400">
           <v-card-title>
-            {{ resume.fileName }}
+            {{ resume.resumeName }}
           </v-card-title>
 
           <v-card-subtitle>
@@ -40,9 +40,11 @@
 
 <script>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
+    const router = useRouter();
     const resumes = ref([]);
 
     const formatDate = (date) => {
@@ -50,18 +52,16 @@ export default {
     };
 
     const viewResume = (resume) => {
-      // Simulate viewing the resume (you can implement a modal or a new page)
-      alert(`Viewing resume: ${resume.fileName}`);
+      router.push({ name: 'resume-view', params: { id: resume.id } });
     };
 
     const deleteResume = (id) => {
       resumes.value = resumes.value.filter(resume => resume.id !== id);
-      localStorage.setItem('resumes', JSON.stringify(resumes.value)); // Update localStorage
+      localStorage.setItem('resumes', JSON.stringify(resumes.value));
     };
 
     const goToUpload = () => {
       // Logic to navigate to upload page
-      // This could be a router push if using Vue Router
     };
 
     // Load resumes from localStorage when the component is mounted

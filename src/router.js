@@ -82,6 +82,11 @@ const routes =  [
     name: "account",
     component: () => import("./views/Account.vue"),
     props: true
+  },
+  {
+    path: '/resume/:id',
+    name: 'resume-view',
+    component: () => import('./views/ResumeView.vue')
   }
   
 ];
