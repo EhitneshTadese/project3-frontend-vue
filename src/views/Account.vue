@@ -122,10 +122,16 @@ export default {
     },
     mounted() {
         // Load user data when component mounts
-        const userData = JSON.parse(localStorage.getItem('user') || '{}')
-        this.firstName = userData.firstName || ''
-        this.lastName = userData.lastName || ''
-        this.email = userData.email || ''
+        const userData = JSON.parse(localStorage.getItem('user') || '{}');
+        console.log("Retrieved user data:", userData); // Log the retrieved data
+
+        if (userData && userData.firstName && userData.lastName && userData.email) {
+            this.firstName = userData.firstName;
+            this.lastName = userData.lastName;
+            this.email = userData.email;
+        } else {
+            console.error("User data is not available or malformed:", userData);
+        }
     }
 }
 </script>

@@ -29,18 +29,40 @@ export default {
       message: "Choose an option to get started",
     };
   },
+  mounted() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const firstName = urlParams.get('firstName');
+    const lastName = urlParams.get('lastName');
+    const email = urlParams.get('email');
+
+    console.log("First Name:", firstName);
+    console.log("Last Name:", lastName);
+    console.log("Email:", email);
+
+    if (firstName && lastName && email) {
+      const userData = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email
+      };
+      localStorage.setItem('user', JSON.stringify(userData)); // Store user data in localStorage
+      console.log("User data stored in localStorage:", userData);
+    } else {
+      console.error("User data not found in query parameters.");
+    }
+  },
   methods: {
     goCreateResume() {
-      this.$router.push({ name: "create-resume" }); // Navigate to Create Resume page
+      this.$router.push({ name: "create-resume" });
     },
     goAllResumes() {
-      this.$router.push({ name: "all-resumes" }); // Navigate to All Resumes page
+      this.$router.push({ name: "all-resumes" });
     },
     goCheckAI() {
-      this.$router.push({ name: "check-ai" }); // Navigate to Check AI page
+      this.$router.push({ name: "check-ai" });
     },
     goUploadResume() {
-      this.$router.push({ name: "upload-resume" }); // Navigate to Upload Resume page
+      this.$router.push({ name: "upload-resume" });
     },
   },
 };
