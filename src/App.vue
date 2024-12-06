@@ -14,7 +14,7 @@
             <v-app-bar-title>Resume Builder</v-app-bar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items>
-                <v-btn variant="text" @click="goTemplates">Templates</v-btn>
+               
                 <v-btn variant="text" @click="goAccount">
                     <v-icon left>mdi-account</v-icon>
                     Account
