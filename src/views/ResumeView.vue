@@ -309,9 +309,3 @@ export default {
   }
 }
 </style>
-
-  };
-  </script>
-  
-  <style scoped>
-  </style>

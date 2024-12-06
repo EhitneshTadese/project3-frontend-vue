@@ -35,7 +35,14 @@ export default {
     login() {
       if (this.username && this.password) {
         console.log("Logging in with:", this.username, this.password);
-        // Add actual login logic here
+        // Simulate a successful login response with user data
+        const userData = {
+          firstName: 'John', // Replace with actual data from Google
+          lastName: 'Doe',   // Replace with actual data from Google
+          email: 'john.doe@example.com' // Replace with actual data from Google
+        };
+        localStorage.setItem('user', JSON.stringify(userData)); // Store user data in localStorage
+        this.$router.push({ name: 'account' }); // Redirect to account page
       } else {
         console.error("Please enter both username and password.");
       }
