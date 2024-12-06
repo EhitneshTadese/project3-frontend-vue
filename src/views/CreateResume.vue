@@ -22,12 +22,6 @@
             ></v-text-field>
 
             <v-text-field
-              v-model="tutorial.phone"
-              label="Phone Number"
-              :rules="[rules.required, rules.phone]"
-            ></v-text-field>
-
-            <v-text-field
               v-model="tutorial.email"
               label="Email"
               :rules="[rules.required, rules.email]"
@@ -38,12 +32,10 @@
               label="Address"
             ></v-text-field>
 
-            <!-- Professional Summary -->
             <v-textarea
-              v-model="tutorial.professionalSummary"
-              label="Professional Summary"
-              rows="4"
-              :rules="[rules.required]"
+              v-model="tutorial.introduction"
+              label="Professional Introduction"
+              rows="3"
             ></v-textarea>
 
             <!-- Education Section -->
@@ -52,37 +44,25 @@
               <v-card-text>
                 <div v-for="(edu, index) in tutorial.education" :key="index">
                   <v-row>
-                    <v-col cols="12" md="3">
+                    <v-col cols="12" md="4">
                       <v-text-field
                         v-model="edu.degree"
                         label="Degree"
                         :rules="[rules.required]"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="12" md="3">
+                    <v-col cols="12" md="4">
                       <v-text-field
                         v-model="edu.institution"
                         label="Institution"
                         :rules="[rules.required]"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="12" md="3">
+                    <v-col cols="12" md="4">
                       <v-text-field
                         v-model="edu.graduationDate"
                         label="Graduation Date"
                         type="date"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="3">
-                      <v-text-field
-                        v-model="edu.gpa"
-                        label="GPA"
-                        type="number"
-                        step="0.01"
-                        min="0"
-                        max="4.0"
-                        hint="Enter GPA (0.00 - 4.00)"
-                        persistent-hint
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -160,15 +140,14 @@
                       <v-text-field
                         v-model="skill.name"
                         label="Skill Name"
-                        :rules="[rules.required]"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="6">
-                      <v-text-field
+                      <v-select
                         v-model="skill.proficiency"
-                        label="Proficiency"
-                        :rules="[rules.required]"
-                      ></v-text-field>
+                        :items="['Beginner', 'Intermediate', 'Advanced', 'Expert']"
+                        label="Proficiency Level"
+                      ></v-select>
                     </v-col>
                   </v-row>
                 </div>
@@ -179,83 +158,6 @@
                   class="ml-2"
                   :disabled="tutorial.skills.length <= 1"
                 >Remove Skill</v-btn>
-              </v-card-text>
-            </v-card>
-
-            <!-- Awards Section -->
-            <v-card class="mb-4" outlined>
-              <v-card-title>Awards</v-card-title>
-              <v-card-text>
-                <div v-for="(award, index) in tutorial.awards" :key="index">
-                  <v-row>
-                    <v-col cols="12" md="6">
-                      <v-text-field
-                        v-model="award.name"
-                        label="Award Name"
-                        :rules="[rules.required]"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="6">
-                      <v-text-field
-                        v-model="award.date"
-                        label="Date"
-                        type="date"
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-                </div>
-                <v-btn @click="addAward" color="success">Add Award</v-btn>
-                <v-btn 
-                  @click="removeAward(tutorial.awards.length - 1)" 
-                  color="error" 
-                  class="ml-2"
-                  :disabled="tutorial.awards.length <= 1"
-                >Remove Award</v-btn>
-              </v-card-text>
-            </v-card>
-
-            <!-- Activities Section -->
-            <v-card class="mb-4" outlined>
-              <v-card-title>Activities</v-card-title>
-              <v-card-text>
-                <v-textarea
-                  v-model="tutorial.activities"
-                  label="Activities"
-                  rows="3"
-                  :rules="[rules.required]"
-                ></v-textarea>
-              </v-card-text>
-            </v-card>
-
-            <!-- Computer Skills Section -->
-            <v-card class="mb-4" outlined>
-              <v-card-title>Computer Skills</v-card-title>
-              <v-card-text>
-                <div v-for="(skill, index) in tutorial.computerSkills" :key="index">
-                  <v-row>
-                    <v-col cols="12" md="6">
-                      <v-text-field
-                        v-model="skill.name"
-                        label="Skill Name"
-                        :rules="[rules.required]"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="6">
-                      <v-text-field
-                        v-model="skill.proficiency"
-                        label="Proficiency"
-                        :rules="[rules.required]"
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-                </div>
-                <v-btn @click="addComputerSkill" color="success">Add Computer Skill</v-btn>
-                <v-btn 
-                  @click="removeComputerSkill(tutorial.computerSkills.length - 1)" 
-                  color="error" 
-                  class="ml-2"
-                  :disabled="tutorial.computerSkills.length <= 1"
-                >Remove Computer Skill</v-btn>
               </v-card-text>
             </v-card>
 
@@ -284,70 +186,90 @@
 
 <script>
 export default {
-  name: 'CreateResume',
+  name: "CreateResume",
   data() {
     return {
       valid: false,
       loading: false,
-      message: '',
       tutorial: {
-        resumeName: '',
-        name: '',
-        phone: '',
-        email: '',
-        address: '',
-        professionalSummary: '',
-        education: [{
-          degree: '',
-          institution: '',
-          graduationDate: '',
-          gpa: ''
+        name: "",
+        email: "",
+        address: "",
+        resumeName: "",
+        templateType: "",
+        introduction: "",
+        education: [{ 
+          degree: "",
+          institution: "",
+          graduationDate: ""
         }],
         experience: [{
-          jobTitle: '',
-          companyName: '',
-          startDate: '',
-          endDate: '',
-          description: ''
+          jobTitle: "",
+          companyName: "",
+          startDate: "",
+          endDate: "",
+          description: ""
         }],
-        skills: [{
-          name: '',
-          proficiency: ''
+        skills: [{ 
+          name: "", 
+          proficiency: "" 
         }],
-        awards: [{
-          name: '',
-          date: ''
+        awards: [{ 
+          name: "", 
+          date: "" 
         }],
-        activities: '',
-        computerSkills: [{
-          name: '',
-          proficiency: ''
+        projects: [{ 
+          name: "", 
+          description: "", 
+          link: "" 
         }]
       },
+      message: "Enter data and click Submit",
       rules: {
-        required: v => !!v || 'This field is required',
-        email: v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-        phone: v => {
-          const pattern = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/;
-          return !v || pattern.test(v) || 'Please enter a valid phone number';
-        }
+        required: value => !!value || "Required.",
+        email: value => /.+@.+\..+/.test(value) || "E-mail must be valid."
+      }
+    };
+  },
+  created() {
+    const resumeId = this.$route.params.id;
+    if (resumeId) {
+      const resumes = JSON.parse(localStorage.getItem('resumes')) || [];
+      const existingResume = resumes.find(resume => resume.id === parseInt(resumeId));
+      if (existingResume) {
+        this.tutorial = { ...existingResume };
       }
     }
   },
   methods: {
-    submitTutorial() {
+    async submitTutorial() {
+      console.log("Submit button clicked");
+      
       if (this.$refs.form.validate()) {
         try {
-          this.loading = true;
+          console.log("Form validation passed");
           this.message = "Submitting...";
+          this.loading = true;
           
           const resumes = JSON.parse(localStorage.getItem('resumes')) || [];
           
           const newResume = {
             id: this.$route.params.id ? parseInt(this.$route.params.id) : Date.now(),
             uploadDate: new Date().toISOString(),
-            ...this.tutorial
+            resumeName: this.tutorial.resumeName || 'Untitled Resume',
+            name: this.tutorial.name,
+            email: this.tutorial.email,
+            address: this.tutorial.address,
+            introduction: this.tutorial.introduction,
+            templateType: this.tutorial.templateType,
+            education: this.tutorial.education,
+            experience: this.tutorial.experience,
+            projects: this.tutorial.projects,
+            skills: this.tutorial.skills,
+            awards: this.tutorial.awards
           };
+
+          console.log("New resume object:", newResume);
 
           const index = resumes.findIndex(resume => resume.id === newResume.id);
           if (index !== -1) {
@@ -355,12 +277,15 @@ export default {
           } else {
             resumes.push(newResume);
           }
-          
           localStorage.setItem('resumes', JSON.stringify(resumes));
+
+          console.log("Resume saved to localStorage");
           this.message = "Resume created successfully!";
           
           setTimeout(() => {
-            this.$router.push({ name: 'all-resumes' });
+            this.$router.push({ name: 'all-resumes' }).catch(err => {
+              console.error("Navigation error:", err);
+            });
           }, 500);
         } catch (error) {
           console.error("Error creating resume:", error);
@@ -369,18 +294,18 @@ export default {
           this.loading = false;
         }
       } else {
+        console.log("Form validation failed");
         this.message = "Please fill in all required fields";
       }
     },
     cancel() {
-      this.$router.push({ name: 'all-resumes' });
+      this.$router.push({ name: 'account' });
     },
     addEducation() {
       this.tutorial.education.push({
-        degree: '',
-        institution: '',
-        graduationDate: '',
-        gpa: ''
+        degree: "",
+        institution: "",
+        graduationDate: ""
       });
     },
     removeEducation(index) {
@@ -390,11 +315,11 @@ export default {
     },
     addExperience() {
       this.tutorial.experience.push({
-        jobTitle: '',
-        companyName: '',
-        startDate: '',
-        endDate: '',
-        description: ''
+        jobTitle: "",
+        companyName: "",
+        startDate: "",
+        endDate: "",
+        description: ""
       });
     },
     removeExperience(index) {
@@ -404,45 +329,26 @@ export default {
     },
     addSkill() {
       this.tutorial.skills.push({
-        name: '',
-        proficiency: ''
+        name: "",
+        proficiency: ""
       });
     },
     removeSkill(index) {
       if (this.tutorial.skills.length > 1) {
         this.tutorial.skills.splice(index, 1);
       }
-    },
-    addAward() {
-      this.tutorial.awards.push({
-        name: '',
-        date: ''
-      });
-    },
-    removeAward(index) {
-      if (this.tutorial.awards.length > 1) {
-        this.tutorial.awards.splice(index, 1);
-      }
-    },
-    addComputerSkill() {
-      this.tutorial.computerSkills.push({
-        name: '',
-        proficiency: ''
-      });
-    },
-    removeComputerSkill(index) {
-      if (this.tutorial.computerSkills.length > 1) {
-        this.tutorial.computerSkills.splice(index, 1);
-      }
     }
   }
-}
+};
 </script>
 
 <style scoped>
-.v-card-text {
-  padding-top: 12px;
-  padding-bottom: 12px;
+.resume-preview {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-top: 20px;
+}
+.mb-4 {
+  margin-bottom: 1rem;
 }
 </style>
-  
