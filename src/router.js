@@ -6,8 +6,8 @@ const routes =  [
     component: () => import("./views/Login.vue")
   },
   {
-    path: "/create-resume",
-    name: "createresume",
+    path: '/create-resume/:id?',
+    name: "create-resume",
     component: () => import("./views/CreateResume.vue")
   },
 {
@@ -57,7 +57,6 @@ const routes =  [
     component: () => import("./views/EditTutorial.vue"),
     props: true
   },
- 
   {
     path: "/view",
     name: "view",
@@ -70,7 +69,6 @@ const routes =  [
     component: () => import("./views/AddLesson.vue"),
     props: true
   },
-  
   {
     path: "/editLesson",
     name: "editLesson",
@@ -88,7 +86,6 @@ const routes =  [
     name: 'resume-view',
     component: () => import('./views/ResumeView.vue')
   }
-  
 ];
 const router = createRouter({
   base: process.env.NODE_ENV === 'development' ? '/' : '/tutorial-frontend-1/',

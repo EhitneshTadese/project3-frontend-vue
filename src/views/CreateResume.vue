@@ -1,277 +1,354 @@
  
 <template>
+  <div>
     <h1>Create Resume</h1>
     <h4>{{ message }}</h4>
     <v-container>
-        <v-card>
-            <v-card-title>Create Resume</v-card-title>
-            <v-card-text>
-                <v-form ref="form" v-model="valid">
-                    <!-- User Basic Information Section -->
-                    <v-row>
-                        <v-col cols="12" md="4">
-                            <v-text-field
-                                v-model="tutorial.name"
-                                label="Name"
-                                :rules="[rules.required]"
-                            />
-                        </v-col>
-                        <v-col cols="12" md="4">
-                            <v-text-field
-                                v-model="tutorial.email"
-                                label="Email"
-                                :rules="[rules.required, rules.email]"
-                            />
-                        </v-col>
-                        <v-col cols="12" md="4">
-                            <v-text-field
-                                v-model="tutorial.address"
-                                label="Address"
-                                :rules="[rules.required]"
-                            />
-                        </v-col>
-                    </v-row>
+      <v-card>
+        <v-card-title>Create Resume</v-card-title>
+        <v-card-text>
+          <v-form ref="form" v-model="valid">
+            <!-- Basic Information -->
+            <v-text-field
+              v-model="tutorial.resumeName"
+              label="Resume Name"
+              :rules="[rules.required]"
+            ></v-text-field>
 
-                    <!-- Resume Section -->
-                    <v-divider class="my-4"></v-divider>
-                    <v-row>
-                        <v-col cols="12" md="4">
-                            <v-text-field
-                                label="Resume Name"
-                                v-model="tutorial.resumeName"
-                                :rules="[rules.required]"
-                            />
-                        </v-col>
-                        <v-col cols="12" md="4">
-                            <v-text-field
-                                label="Template Type"
-                                v-model="tutorial.templateType"
-                            />
-                        </v-col>
-                        <v-col cols="12" md="4">
-                            <v-text-field
-                                label="Introduction"
-                                v-model="tutorial.introduction"
-                            />
-                        </v-col>
-                    </v-row>
+            <v-text-field
+              v-model="tutorial.name"
+              label="Full Name"
+              :rules="[rules.required]"
+            ></v-text-field>
 
-                    <!-- Education Section -->
-                    <v-divider class="my-4"></v-divider>
-                    <h3>Education</h3>
-                    <v-row>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="Degree"
-                                v-model="tutorial.education.degree"
-                            />
-                        </v-col>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="Institution"
-                                v-model="tutorial.education.institution"
-                            />
-                        </v-col>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="Graduation Date"
-                                v-model="tutorial.education.graduationDate"
-                                type="date"
-                            />
-                        </v-col>
-                    </v-row>
+            <v-text-field
+              v-model="tutorial.email"
+              label="Email"
+              :rules="[rules.required, rules.email]"
+            ></v-text-field>
 
-                    <!-- Experience Section -->
-                    <v-divider class="my-4"></v-divider>
-                    <h3>Experience</h3>
-                    <v-row>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="Job Title"
-                                v-model="tutorial.experience.jobTitle"
-                            />
-                        </v-col>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="Company Name"
-                                v-model="tutorial.experience.companyName"
-                            />
-                        </v-col>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="Start Date"
-                                v-model="tutorial.experience.startDate"
-                                type="date"
-                            />
-                        </v-col>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="End Date"
-                                v-model="tutorial.experience.endDate"
-                                type="date"
-                            />
-                        </v-col>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="Job Description"
-                                v-model="tutorial.experience.description"
-                            />
-                        </v-col>
-                    </v-row>
+            <v-text-field
+              v-model="tutorial.address"
+              label="Address"
+            ></v-text-field>
 
-                    <!-- Projects Section -->
-                    <v-divider class="my-4"></v-divider>
-                    <h3>Projects</h3>
-                    <v-row>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="Project Name"
-                                v-model="tutorial.projects[0].name"
-                            />
-                        </v-col>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="Description"
-                                v-model="tutorial.projects[0].description"
-                            />
-                        </v-col>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="Project Link"
-                                v-model="tutorial.projects[0].link"
-                            />
-                        </v-col>
-                    </v-row>
+            <v-textarea
+              v-model="tutorial.introduction"
+              label="Professional Introduction"
+              rows="3"
+            ></v-textarea>
 
-                    <!-- Skills Section -->
-                    <v-divider class="my-4"></v-divider>
-                    <h3>Skills</h3>
-                    <v-row>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="Skill Name"
-                                v-model="tutorial.skills[0].name"
-                            />
-                        </v-col>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="Proficiency Level"
-                                v-model="tutorial.skills[0].proficiency"
-                            />
-                        </v-col>
-                    </v-row>
+            <!-- Education Section -->
+            <v-card class="mb-4" outlined>
+              <v-card-title>Education</v-card-title>
+              <v-card-text>
+                <div v-for="(edu, index) in tutorial.education" :key="index">
+                  <v-row>
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="edu.degree"
+                        label="Degree"
+                        :rules="[rules.required]"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="edu.institution"
+                        label="Institution"
+                        :rules="[rules.required]"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="edu.graduationDate"
+                        label="Graduation Date"
+                        type="date"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </div>
+                <v-btn @click="addEducation" color="success">Add Education</v-btn>
+                <v-btn 
+                  @click="removeEducation(tutorial.education.length - 1)" 
+                  color="error" 
+                  class="ml-2"
+                  :disabled="tutorial.education.length <= 1"
+                >Remove Education</v-btn>
+              </v-card-text>
+            </v-card>
 
-                    <!-- Awards Section -->
-                    <v-divider class="my-4"></v-divider>
-                    <h3>Awards</h3>
-                    <v-row>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="Award Name"
-                                v-model="tutorial.awards[0].name"
-                            />
-                        </v-col>
-                        <v-col cols="4">
-                            <v-text-field
-                                label="Date Earned"
-                                v-model="tutorial.awards[0].date"
-                                type="date"
-                            />
-                        </v-col>
-                    </v-row>
+            <!-- Experience Section -->
+            <v-card class="mb-4" outlined>
+              <v-card-title>Experience</v-card-title>
+              <v-card-text>
+                <div v-for="(exp, index) in tutorial.experience" :key="index">
+                  <v-row>
+                    <v-col cols="12" md="6">
+                      <v-text-field
+                        v-model="exp.jobTitle"
+                        label="Job Title"
+                        :rules="[rules.required]"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <v-text-field
+                        v-model="exp.companyName"
+                        label="Company Name"
+                        :rules="[rules.required]"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <v-text-field
+                        v-model="exp.startDate"
+                        label="Start Date"
+                        type="date"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <v-text-field
+                        v-model="exp.endDate"
+                        label="End Date"
+                        type="date"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12">
+                      <v-textarea
+                        v-model="exp.description"
+                        label="Job Description"
+                        rows="3"
+                      ></v-textarea>
+                    </v-col>
+                  </v-row>
+                </div>
+                <v-btn @click="addExperience" color="success">Add Experience</v-btn>
+                <v-btn 
+                  @click="removeExperience(tutorial.experience.length - 1)" 
+                  color="error" 
+                  class="ml-2"
+                  :disabled="tutorial.experience.length <= 1"
+                >Remove Experience</v-btn>
+              </v-card-text>
+            </v-card>
 
-                    <v-row justify="center">
-                        <v-col col="2">
-                            <v-btn style="background-color: #7DE2D1;" @click="submitTutorial">Submit</v-btn>
-                        </v-col>
-                        <v-col col="2">
-                            <v-btn color="red" @click="cancel">Cancel</v-btn>
-                        </v-col>
-                    </v-row>
-                </v-form>
-            </v-card-text>
-        </v-card>
+            <!-- Skills Section -->
+            <v-card class="mb-4" outlined>
+              <v-card-title>Skills</v-card-title>
+              <v-card-text>
+                <div v-for="(skill, index) in tutorial.skills" :key="index">
+                  <v-row>
+                    <v-col cols="12" md="6">
+                      <v-text-field
+                        v-model="skill.name"
+                        label="Skill Name"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <v-select
+                        v-model="skill.proficiency"
+                        :items="['Beginner', 'Intermediate', 'Advanced', 'Expert']"
+                        label="Proficiency Level"
+                      ></v-select>
+                    </v-col>
+                  </v-row>
+                </div>
+                <v-btn @click="addSkill" color="success">Add Skill</v-btn>
+                <v-btn 
+                  @click="removeSkill(tutorial.skills.length - 1)" 
+                  color="error" 
+                  class="ml-2"
+                  :disabled="tutorial.skills.length <= 1"
+                >Remove Skill</v-btn>
+              </v-card-text>
+            </v-card>
+
+            <!-- Submit and Cancel buttons -->
+            <v-row justify="center" class="mt-4">
+              <v-col cols="2">
+                <v-btn 
+                  style="background-color: #7DE2D1;" 
+                  @click.prevent="submitTutorial"
+                  :loading="loading"
+                  :disabled="!valid"
+                >
+                  Submit
+                </v-btn>
+              </v-col>
+              <v-col cols="2">
+                <v-btn color="red" @click="cancel">Cancel</v-btn>
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+      </v-card>
     </v-container>
+  </div>
 </template>
 
 <script>
-import TutorialDataService from "../services/TutorialDataService";
-
 export default {
-    name: "CreateResume",
-    data() {
-        return {
-            valid: false,
-            tutorial: {
-                name: "",
-                email: "",
-                address: "",
-                resumeName: "",
-                templateType: "",
-                introduction: "",
-                education: {
-                    degree: "",
-                    institution: "",
-                    graduationDate: ""
-                },
-                experience: {
-                    jobTitle: "",
-                    companyName: "",
-                    startDate: "",
-                    endDate: "",
-                    description: ""
-                },
-                projects: [{ name: "", description: "", link: "" }],
-                skills: [{ name: "", proficiency: "" }],
-                awards: [{ name: "", date: "" }]
-            },
-            message: "Enter data and click Submit",
-            rules: {
-                required: value => !!value || "Required.",
-                email: value => /.+@.+\..+/.test(value) || "E-mail must be valid."
-            }
-        };
-    },
-    methods: {
-        async submitTutorial() {
-            if (this.$refs.form.validate()) {
-                try {
-                    this.message = "Submitting...";
-                    
-                    // Directly save the tutorial data to local storage
-                    const resumes = JSON.parse(localStorage.getItem('resumes')) || [];
-                    const newResume = {
-                        id: Date.now(), // Generate a unique ID based on the current timestamp
-                        ...this.tutorial // Spread the tutorial data
-                    };
-                    resumes.push(newResume);
-                    localStorage.setItem('resumes', JSON.stringify(resumes));
-
-                    console.log("Resume created successfully:", newResume);
-                    this.message = "Resume created successfully!";
-                    
-                    // Redirect to the resume view page after successful creation
-                    // Ensure the route name matches your router configuration
-                    this.$router.push({ 
-                        name: 'resume-view', 
-                        params: { id: newResume.id } // Ensure this matches your route definition
-                    });
-                } catch (error) {
-                    console.error("Error creating resume:", error);
-                    this.message = "Error creating resume: " + error.message;
-                }
-            }
-        },
-        cancel() {
-            this.$router.push({ name: 'account' });
-        }
+  name: "CreateResume",
+  data() {
+    return {
+      valid: false,
+      loading: false,
+      tutorial: {
+        name: "",
+        email: "",
+        address: "",
+        resumeName: "",
+        templateType: "",
+        introduction: "",
+        education: [{ 
+          degree: "",
+          institution: "",
+          graduationDate: ""
+        }],
+        experience: [{
+          jobTitle: "",
+          companyName: "",
+          startDate: "",
+          endDate: "",
+          description: ""
+        }],
+        skills: [{ 
+          name: "", 
+          proficiency: "" 
+        }],
+        awards: [{ 
+          name: "", 
+          date: "" 
+        }],
+        projects: [{ 
+          name: "", 
+          description: "", 
+          link: "" 
+        }]
+      },
+      message: "Enter data and click Submit",
+      rules: {
+        required: value => !!value || "Required.",
+        email: value => /.+@.+\..+/.test(value) || "E-mail must be valid."
+      }
+    };
+  },
+  created() {
+    const resumeId = this.$route.params.id;
+    if (resumeId) {
+      const resumes = JSON.parse(localStorage.getItem('resumes')) || [];
+      const existingResume = resumes.find(resume => resume.id === parseInt(resumeId));
+      if (existingResume) {
+        this.tutorial = { ...existingResume };
+      }
     }
-}
+  },
+  methods: {
+    async submitTutorial() {
+      console.log("Submit button clicked");
+      
+      if (this.$refs.form.validate()) {
+        try {
+          console.log("Form validation passed");
+          this.message = "Submitting...";
+          this.loading = true;
+          
+          const resumes = JSON.parse(localStorage.getItem('resumes')) || [];
+          
+          const newResume = {
+            id: this.$route.params.id ? parseInt(this.$route.params.id) : Date.now(),
+            uploadDate: new Date().toISOString(),
+            resumeName: this.tutorial.resumeName || 'Untitled Resume',
+            name: this.tutorial.name,
+            email: this.tutorial.email,
+            address: this.tutorial.address,
+            introduction: this.tutorial.introduction,
+            templateType: this.tutorial.templateType,
+            education: this.tutorial.education,
+            experience: this.tutorial.experience,
+            projects: this.tutorial.projects,
+            skills: this.tutorial.skills,
+            awards: this.tutorial.awards
+          };
+
+          console.log("New resume object:", newResume);
+
+          const index = resumes.findIndex(resume => resume.id === newResume.id);
+          if (index !== -1) {
+            resumes[index] = newResume;
+          } else {
+            resumes.push(newResume);
+          }
+          localStorage.setItem('resumes', JSON.stringify(resumes));
+
+          console.log("Resume saved to localStorage");
+          this.message = "Resume created successfully!";
+          
+          setTimeout(() => {
+            this.$router.push({ name: 'all-resumes' }).catch(err => {
+              console.error("Navigation error:", err);
+            });
+          }, 500);
+        } catch (error) {
+          console.error("Error creating resume:", error);
+          this.message = "Error creating resume: " + error.message;
+        } finally {
+          this.loading = false;
+        }
+      } else {
+        console.log("Form validation failed");
+        this.message = "Please fill in all required fields";
+      }
+    },
+    cancel() {
+      this.$router.push({ name: 'account' });
+    },
+    addEducation() {
+      this.tutorial.education.push({
+        degree: "",
+        institution: "",
+        graduationDate: ""
+      });
+    },
+    removeEducation(index) {
+      if (this.tutorial.education.length > 1) {
+        this.tutorial.education.splice(index, 1);
+      }
+    },
+    addExperience() {
+      this.tutorial.experience.push({
+        jobTitle: "",
+        companyName: "",
+        startDate: "",
+        endDate: "",
+        description: ""
+      });
+    },
+    removeExperience(index) {
+      if (this.tutorial.experience.length > 1) {
+        this.tutorial.experience.splice(index, 1);
+      }
+    },
+    addSkill() {
+      this.tutorial.skills.push({
+        name: "",
+        proficiency: ""
+      });
+    },
+    removeSkill(index) {
+      if (this.tutorial.skills.length > 1) {
+        this.tutorial.skills.splice(index, 1);
+      }
+    }
+  }
+};
 </script>
+
 <style scoped>
 .resume-preview {
-    border: 1px solid #ccc;
-    padding: 20px;
-    margin-top: 20px;
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-top: 20px;
+}
+.mb-4 {
+  margin-bottom: 1rem;
 }
 </style>
