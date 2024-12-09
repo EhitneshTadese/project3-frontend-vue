@@ -124,13 +124,13 @@
             <v-col cols="12" md="6">
               <v-text-field
                 label="Skill Name"
-                v-model="formData.skills.skill_name"
+                v-model="formData.skill.skill_name"
               />
             </v-col>
             <v-col cols="12" md="6">
               <v-text-field
                 label="Proficiency Level"
-                v-model="formData.skills.proficiency_level"
+                v-model="formData.skill.proficiency_level"
               />
             </v-col>
           </v-row>
@@ -142,13 +142,13 @@
             <v-col cols="12" md="6">
               <v-text-field
                 label="Interest"
-                v-model="formData.interests.interest"
+                v-model="formData.interest.interest"
               />
             </v-col>
             <v-col cols="12" md="6">
               <v-textarea
                 label="Description"
-                v-model="formData.interests.description"
+                v-model="formData.interest.description"
               />
             </v-col>
           </v-row>
@@ -160,13 +160,13 @@
             <v-col cols="12" md="6">
               <v-text-field
                 label="Award Name"
-                v-model="formData.awards.award_name"
+                v-model="formData.award.award_name"
               />
             </v-col>
             <v-col cols="12" md="6">
               <v-text-field
                 label="Date Earned"
-                v-model="formData.awards.date_earned"
+                v-model="formData.award.date_earned"
                 type="date"
               />
             </v-col>
@@ -174,7 +174,7 @@
 
           <!-- Save and Cancel Buttons -->
           <v-row justify="center" class="my-4">
-            <v-btn color="success" @click="saveData">Save</v-btn>
+            <v-btn color="success" @click="updateData">Save</v-btn>
             <v-btn color="error" @click="cancel">Cancel</v-btn>
           </v-row>
         </v-form>
@@ -188,7 +188,6 @@ import ResumeDataService from "../services/ResumeDataService";
 
 export default {
   name: "EditResume",
-  props: ["id"], // Resume ID passed from the route
   data() {
     return {
       formData: {
@@ -212,85 +211,76 @@ export default {
           description: "",
           project_link: "",
         },
-        interests: {
-          interest: "",
-          description: "",
-        },
-        awards: {
-          award_name: "",
-          date_earned: "",
-        },
-        skills: {
+        skill: {
           skill_name: "",
           proficiency_level: "",
         },
+        interest: {
+          interest: "",
+          description: "",
+        },
+        award: {
+          award_name: "",
+          date_earned: "",
+        },
       },
-      message: "Edit your resume and click save",
+      message: "",
     };
   },
   created() {
-    this.fetchResumeData();
+    this.loadResumeData();
   },
   methods: {
-    // Fetch existing resume data to prepopulate the form
-    async fetchResumeData() {
+    async loadResumeData() {
       try {
-        const response = await ResumeDataService.get(this.id);
-        this.populateForm(response.data);
+        const resumeId = this.$route.params.id; // Get resume_id from route
+        const response = await ResumeDataService.get(resumeId);
+
+        const data = response.data;
+
+        // Populate formData with fetched data
+        this.formData.resume_name = data.resume.resume_name;
+        this.formData.template_type = data.resume.template_type;
+        this.formData.intro_paragraph = data.resume.intro_paragraph;
+
+        if (data.education.length > 0) {
+          this.formData.education = data.education[0]; // Assuming one education record
+        }
+        if (data.experience.length > 0) {
+          this.formData.experience = data.experience[0]; // Assuming one experience record
+        }
+        if (data.project.length > 0) {
+          this.formData.project = data.project[0]; // Assuming one project record
+        }
+        if (data.skill.length > 0) {
+          this.formData.skill = data.skill[0]; // Assuming one skill record
+        }
+        if (data.interest.length > 0) {
+          this.formData.interest = data.interest[0]; // Assuming one interest record
+        }
+        if (data.award.length > 0) {
+          this.formData.award= data.award[0]; // Assuming one award record
+        }
       } catch (error) {
+        console.error("Error loading resume data:", error);
         this.message =
-          error.response?.data?.message || "Failed to fetch resume data.";
-        console.error("Error fetching resume:", error);
+          error.response?.data?.message || "Failed to load resume data.";
       }
     },
-
-    // Populate the form with the existing resume data
-    populateForm(data) {
-    
-      this.formData.resume_name = data.resume_name || "";
-      this.formData.template_type = data.template_type || "";
-      this.formData.intro_paragraph = data.intro_paragraph || "";
-      this.formData.education = data.education || {
-        degree: "",
-        institution_name: "",
-        graduation_date: "",
-      };
-      this.formData.experience = data.experience || {
-        job_title: "",
-        company_name: "",
-        start_date: "",
-        end_date: "",
-        job_description: "",
-      };
-      this.formData.project = data.project || {
-        project_name: "",
-        description: "",
-        project_link: "",
-      };
-      this.formData.awards = data.awards || {
-        award_name: "",
-        date_earned: "",
-      };
-      this.formData.skills = data.skills || {
-        skill_name: "",
-        proficiency_level: "",
-      };
-    },
-
-    // Save the updated data
-    async saveData() {
+    async updateData() {
       try {
-        const response = await ResumeDataService.update(this.id, this.formData);
-        this.message = response.data.message || "Resume updated successfully.";
+        const resumeId = this.$route.params.id; // Get resume_id from route
+        const response = await ResumeDataService.update(resumeId, this.formData);
+
+        this.message = response.data.message;
         console.log("Updated Resume:", response.data);
+
         this.$router.push({ name: "resumes" }); // Redirect to resumes page
       } catch (error) {
-        this.message = error.response?.data?.message || "Error updating resume.";
+        this.message = error.response?.data?.message || "Error occurred";
         console.error("Error updating resume:", error);
       }
     },
-
-    // Cancel editing and redirect back to the resume list page
     cancel() {
       this.$router.push({ name: "resumes" });
     },

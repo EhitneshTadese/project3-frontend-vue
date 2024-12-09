@@ -84,9 +84,17 @@ export default {
       console.log("Edit resume:", id);
       // Redirect to the edit page or open a modal
     },
-    deleteResume(id) {
-      console.log("Delete resume:", id);
-      // Call delete API and refresh the list
+   async deleteResume(id) {
+      if (confirm("Are you sure you want to delete this resume?")) {
+        try {
+          await ResumeDataService.delete(id);
+          this.message = "Resume deleted successfully!";
+          this.fetchResumes(); // Refresh the list after deletion
+        } catch (error) {
+          console.error("Error deleting resume:", error);
+          this.message = error.response?.data?.message || "Failed to delete resume.";
+        }
+      }
     },
   },
   created() {
@@ -97,5 +105,6 @@ export default {
 
 <style>
 /* Add any custom styles if needed */
+   
 
 </style>

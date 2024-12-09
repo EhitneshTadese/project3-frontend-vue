@@ -30,9 +30,15 @@ get(id) {
 // Update a resume by ID
 update(id, data) {
   return http.put(`/${id}`, data);
+  }
+  
+  delete(id) {
+    return http.delete(`/${id}`);
+  }
+  //Egziabiher yoh 
 }
 
   
-}
+
 
 export default new ResumeDataService();  // Exporting an instance of the class
