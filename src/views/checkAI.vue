@@ -44,6 +44,8 @@
   </template>
   
   <script>
+  import axios from 'axios'; // Import Axios
+
   export default {
     data() {
       return {
@@ -52,11 +54,25 @@
       };
     },
     methods: {
-      // Simulating AI response for now
-      getAIResponse() {
-        // Here, you can integrate with an actual AI API or service.
-        // For now, we're just simulating a response.
-        this.aiFeedback = `AI processed your input: ${this.userInput}`;
+      async getAIResponse() {
+        try {
+          const response = await axios.post('https://api.cohere.ai/v1/generate', {
+            model: 'your-cohere-model', // Replace with your model name
+            prompt: `Analyze the following input and provide suggestions: ${this.userInput}`,
+            maxTokens: 100, // Adjust as needed
+            temperature: 0.7, // Adjust as needed
+          }, {
+            headers: {
+              'Authorization': `Bearer YOUR_COHERE_API_KEY`, // Replace with your API key
+              'Content-Type': 'application/json',
+            },
+          });
+
+          this.aiFeedback = response.data.generations[0].text; // Update with the AI's response
+        } catch (error) {
+          console.error('Error fetching AI response:', error);
+          this.aiFeedback = 'Error fetching AI feedback. Please try again.';
+        }
       },
     },
   };
