@@ -7,7 +7,7 @@ RewriteEngine On
 RewriteBase /2024/project3/t8/
 
 # Allow direct access to assets
-RewriteCond %{REQUEST_URI} !^/assets/
+RewriteCond %{REQUEST_URI} !^/2024/project3/t8/assets/
 RewriteRule ^index\.html$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
