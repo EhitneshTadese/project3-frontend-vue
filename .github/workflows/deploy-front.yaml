@@ -19,9 +19,7 @@ jobs:
       # Replace asset paths in the built files
       - name: Update Asset Paths
         run: |
-          find ./dist -type f -name "*.html" -exec sed -i 's|/assets/|/2024/project3/t8/assets/|g' {} +
-          find ./dist -type f -name "*.css" -exec sed -i 's|/assets/|/2024/project3/t8/assets/|g' {} +
-          find ./dist -type f -name "*.js" -exec sed -i 's|/assets/|/2024/project3/t8/assets/|g' {} +
+          find ./dist -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" \) -exec sed -i 's|/assets/|/2024/project3/t8/assets/|g' {} +
 
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@v2.1.1
