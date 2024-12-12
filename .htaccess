@@ -4,7 +4,10 @@ Options -MultiViews
 
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteBase /2024/project3/t?
+RewriteBase /2024/project3/t8/
+
+# Allow direct access to assets
+RewriteCond %{REQUEST_URI} !^/assets/
 RewriteRule ^index\.html$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
